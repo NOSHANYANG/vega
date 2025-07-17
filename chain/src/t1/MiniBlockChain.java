@@ -17,6 +17,7 @@ public class MiniBlockChain {
     }
 
     private Block initGenesisBlock() {
+        System.out.println("初始化创世区块");
         return new Block(0
                 , System.currentTimeMillis()
                 , new ArrayList<Transaction>(){{add(Transaction.getGenesisBlock());}}
@@ -64,10 +65,10 @@ public class MiniBlockChain {
     public static void main(String[] args) {
         MiniBlockChain miniBlockChain = new MiniBlockChain();
 
-        for (int i = 0; i < 10; i ++){
+        for (int i = 0; i < 5; i ++){
             System.out.println("开始挖第"+(miniBlockChain.getChain().size()+1)+"个区块");
             miniBlockChain.addBlock(
-                    new Block(miniBlockChain.getChain().size()+1
+                    new Block(miniBlockChain.getChain().size()
                             ,System.currentTimeMillis()
                             ,getRandomTransaction()
                             ,"0")
