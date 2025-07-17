@@ -10,7 +10,7 @@ public class RsaUtil {
         return keyPairGenerator.generateKeyPair();
     }
 
-    public static byte[] sing(String data, PrivateKey privateKey) throws Exception{
+    public static byte[] sign(String data, PrivateKey privateKey) throws Exception{
         Signature signature = Signature.getInstance("SHA256withRSA");
         signature.initSign(privateKey);
         signature.update(data.getBytes(StandardCharsets.UTF_8));
