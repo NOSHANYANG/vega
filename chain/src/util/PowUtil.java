@@ -18,12 +18,22 @@ public class PowUtil {
             byte[] hashBytes = digest.digest(content.getBytes(StandardCharsets.UTF_8));
             hash = HexUtil.byteToHex(hashBytes);
             if (hash.startsWith(prefix)){
-                return new ProofOfWorkResult(content,hash);
+                return new ProofOfWorkResult(content,hash,nonce);
             }
             nonce++;
             if (nonce % 100000 == 0){
                 System.out.println("已尝试"+nonce+"次...");
             }
+        }
+    }
+
+    public static String hash256(String content) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] bytes = digest.digest(content.getBytes(StandardCharsets.UTF_8));
+            return HexUtil.byteToHex(bytes);
+        }catch (Exception e){
+            throw new RuntimeException(e);
         }
     }
 }

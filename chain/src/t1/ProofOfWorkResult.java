@@ -8,4 +8,5 @@ import lombok.Data;
 public class ProofOfWorkResult {
     private String content;
     private String hash;
+    private long nonce;
 }

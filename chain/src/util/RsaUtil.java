@@ -21,6 +21,6 @@ public class RsaUtil {
         Signature signature = Signature.getInstance("SHA256withRSA");
         signature.initVerify(publicKey);
         signature.update(data.getBytes(StandardCharsets.UTF_8));
-        return  signature.verify(signatureBytes);
+        return signature.verify(signatureBytes);
     }
 }
