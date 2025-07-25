@@ -12,18 +12,41 @@ contract Bank {
         owner = msg.sender;
     }
 
-    function deposit() public payable {
-        require(msg.value > 0, "存款金额为0");
+    event Deposit(address indexed user, uint amount);
+    event WithDraw(address indexed to, uint amount);
+
+    function deposit() external payable {
+        require(msg.value > 0, "invalid money");
         balances[msg.sender] += msg.value;
         retop(msg.sender);
+        emit Deposit(msg.sender,msg.value);
     }
 
-    function transfer(uint x) public payable {
-        balances[msg.sender] = x;
+    receive() external payable{
+        require(msg.value > 0, "invalid money");
+        balances[msg.sender] += msg.value;
+        retop(msg.sender);
+        emit Deposit(msg.sender,msg.value);
     }
 
-    function withdraw() {
+    function withdraw(uint amount) external onlyOwner {
+        require(amount <= address(this).balance,"not sufficient funds");
+        (bool ok,) = owner.call{value: amount}("");
+        require(ok,"transfer failed");
+        emit WithDraw(owner,amount);
+    }
 
+    modifier onlyOwner(){
+        require(msg.sender == owner,"not manager");
+        _;
+    }
+
+    function getTop3() external view returns (address[3] memory){
+        return top_3;
+    }
+
+    function getBalance() external view returns (uint){
+        return address(this).balance;
     }
 
     function retop(address user) public {
